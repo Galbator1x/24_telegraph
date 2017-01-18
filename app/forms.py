@@ -3,5 +3,5 @@ from wtforms import Form, StringField, TextAreaField
 
 class ArticleForm(Form):
     title = StringField('Title')
-    name = StringField('Name')
+    signature = StringField('Signature')
     body = TextAreaField('Story')

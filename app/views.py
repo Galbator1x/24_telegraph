@@ -18,7 +18,7 @@ def form():
 @app.route('/create_article', methods=['POST'])
 def create_article():
     title = request.form['title']
-    name = request.form['name']
+    signature = request.form['signature']
     body = request.form['body']
     dt = datetime.now()
     slug = slugify('{}-{}-{}-{}-{}-{}'.format(title, dt.month, dt.day,
@@ -26,7 +26,7 @@ def create_article():
     owner_id = request.cookies.get('owner_id')
     if owner_id == 'undefined':
         owner_id = str(uuid.uuid4())
-    article = Article(title=title, name=name, body=body,
+    article = Article(title=title, signature=signature, body=body,
                       slug=slug, owner_id=owner_id)
     db.session.add(article)
     db.session.commit()
@@ -52,7 +52,7 @@ def update_article(slug):
         return render_template('update_article.html', form=form)
     else:
         article.title = request.form['title']
-        article.name = request.form['name']
+        article.signature = request.form['signature']
         article.body = request.form['body']
         db.session.commit()
         return json.dumps({'status': 'OK', 'slug': slug})
