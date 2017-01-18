@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  <div class="container">
+    <div class="col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
+      {% from "_formhelpers.html" import render_field %}
+      <form method="POST" action="/">
+        <div class="form-group">
+          <button class="btn btn-default pull-right" id="btn-update-article" type="submit">Сохранить</button>
+        </div>
+        <div class="form-group">
+          {{ render_field(form.title, class="form-control", placeholder="Заголовок", autofocus=true) }}
+        </div>
+        <div class="form-group">
+          {{ render_field(form.name, class="form-control", placeholder="Подпись") }}
+        </div>
+        <div class="form-group">
+          {{ render_field(form.body, class="form-control", rows="10", placeholder="Ваша история") }}
+        </div>
+      </form>
+    </div>
+  </div><!-- /.container -->
+{% endblock %}

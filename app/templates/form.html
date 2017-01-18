@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  <div class="container">
+    <div class="col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
+      <form method="POST" id="form" action="/">
+        <div class="form-group">
+          <button class="btn btn-default pull-right" id="btn-create-article" type="submit">Опубликовать</button>
+        </div>
+        <div class="form-group">
+          <input name="title" class="form-control" placeholder="Заголовок" autofocus/>
+        </div>
+        <div class="form-group">
+          <input name="name" class="form-control" placeholder="Подпись"/>
+        </div>
+        <div class="form-group">
+          <textarea name="body" class="form-control" rows="10" placeholder="Ваша история"></textarea>
+        </div>
+      </form>
+    </div>
+  </div><!-- /.container -->
+{% endblock %}
