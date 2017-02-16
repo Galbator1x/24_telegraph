@@ -4,7 +4,7 @@ from app import db
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200))
-    signature = db.Column(db.String(120))
+    signature = db.Column(db.String(255))
     body = db.Column(db.Text)
     slug = db.Column(db.String(255), unique=True)
     owner_id = db.Column(db.String(255))
