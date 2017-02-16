@@ -6,31 +6,28 @@ from datetime import datetime
 import json
 import uuid
 
-from flask import render_template, request, abort
+from flask import render_template, request, abort, current_app, redirect
 from slugify import slugify
 
 
-@app.route('/')
-def form():
-    return render_template('form.html')
-
-
-@app.route('/create_article', methods=['POST'])
+@app.route('/', methods=['POST', 'GET'])
 def create_article():
-    title = request.form['title']
-    signature = request.form['signature']
-    body = request.form['body']
-    dt = datetime.now()
-    slug = slugify('{}-{}-{}-{}-{}-{}'.format(title, dt.month, dt.day,
-                                              dt.hour, dt.minute, dt.second))
-    owner_id = request.cookies.get('owner_id')
-    if owner_id == 'undefined':
-        owner_id = str(uuid.uuid4())
-    article = Article(title=title, signature=signature, body=body,
-                      slug=slug, owner_id=owner_id)
-    db.session.add(article)
-    db.session.commit()
-    return json.dumps({'status': 'OK', 'slug': slug, 'owner_id': owner_id})
+    form = ArticleForm(request.form)
+    if request.method == 'POST' and form.validate():
+        dt = datetime.now()
+        slug = slugify('{}-{}-{}-{}-{}-{}'.format(form.title, dt.month, dt.day,
+                                                  dt.hour, dt.minute, dt.second))
+        owner_id = request.cookies.get('owner_id')
+        if owner_id == 'undefined':
+            owner_id = str(uuid.uuid4())
+        article = Article(title=form.title.data, signature=form.signature.data,
+                body=form.body.data, slug=slug, owner_id=owner_id)
+        db.session.add(article)
+        db.session.commit()
+        response = current_app.make_response(redirect(slug))
+        response.set_cookie('owner_id', owner_id)
+        return response
+    return render_template('create_article.html', form=form)
 
 
 @app.route('/<slug>')
@@ -51,8 +48,11 @@ def update_article(slug):
         form = ArticleForm(obj=article)
         return render_template('update_article.html', form=form)
     else:
-        article.title = request.form['title']
-        article.signature = request.form['signature']
-        article.body = request.form['body']
-        db.session.commit()
-        return json.dumps({'status': 'OK', 'slug': slug})
+        form = ArticleForm(request.form)
+        if request.method == 'POST' and form.validate():
+            article.title = form.title.data
+            article.signature = form.signature.data
+            article.body = form.body.data
+            db.session.commit()
+            return redirect(slug)
+        return render_template('update_article.html', form=form)
