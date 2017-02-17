@@ -18,7 +18,7 @@ def create_article():
         slug = slugify('{}-{}-{}-{}-{}-{}'.format(form.title, dt.month, dt.day,
                                                   dt.hour, dt.minute, dt.second))
         owner_id = request.cookies.get('owner_id')
-        if owner_id == 'undefined':
+        if owner_id == 'undefined' or owner_id is None:
             owner_id = str(uuid.uuid4())
         article = Article(title=form.title.data, signature=form.signature.data,
                 body=form.body.data, slug=slug, owner_id=owner_id)
