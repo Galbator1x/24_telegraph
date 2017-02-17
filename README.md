@@ -6,10 +6,11 @@ It has the ability to edit, authentication is carried out on cookie. [Link to si
 ## Installation
 
 ```
-pip install -r requirements.txt
-python manage.py db init
-python manage.py db migrate
-python manage.py db upgrade
+$ pip install -r requirements.txt
+$ export $(cat dev.env | xargs)
+$ python manage.py db init
+$ python manage.py db migrate
+$ python manage.py db upgrade
 ```
 
 ## Usage
@@ -22,6 +23,10 @@ python manage.py runserver
 ## Requirements
 
 - Python >= 3.5
+
+## List of Heroku plugins
+
+- heroku-config
 
 ## Project Goals
 
