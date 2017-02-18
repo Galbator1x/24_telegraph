@@ -7,7 +7,7 @@ It has the ability to edit, authentication is carried out on cookie. [Link to si
 
 ```
 $ pip install -r requirements.txt
-$ export $(cat dev.env | xargs)
+$ . dev.env
 $ python manage.py db init
 $ python manage.py db migrate
 $ python manage.py db upgrade
