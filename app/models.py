@@ -3,7 +3,7 @@ from app import db
 
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200))
+    title = db.Column(db.String(255))
     signature = db.Column(db.String(255))
     body = db.Column(db.Text)
     slug = db.Column(db.String(255), unique=True)
