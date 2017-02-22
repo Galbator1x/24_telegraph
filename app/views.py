@@ -18,7 +18,6 @@ def create_article():
         slug = slugify('{}-{}-{}-{}-{}-{}'.format(dt.month, dt.day, dt.hour, dt.minute,
                                                   dt.second, form.title.data),
                                                   max_length=255, save_order=True)
-        print(slug)
         owner_id = request.cookies.get('owner_id')
         if owner_id == 'undefined' or owner_id is None:
             owner_id = str(uuid.uuid4())
